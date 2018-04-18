@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <stdexcept>
 #include "playlist.h"
 
 using namespace std;
@@ -21,6 +22,8 @@ Playlist::Playlist(string titles[], int num_titles){
 };
 
 void Playlist::Append(Song data){
+   if (data.title=="") throw runtime_error("Cannot append blank song to playlist.");
+   
    NODE* node = new NODE();
    node->next = nullptr;
    node->song = data;
@@ -39,6 +42,8 @@ void Playlist::Append(Song data){
 }
 
 void Playlist::Prepend(Song song){
+   if (song.title=="") throw runtime_error("Cannot prepend blank song to playlist.");
+
    NODE* node = new NODE();
    node->song = song;
    node->next = head;
@@ -49,6 +54,8 @@ void Playlist::Prepend(Song song){
 }
 
 void Playlist::Remove(Song song){
+   if (song.title=="") throw runtime_error("Cannot remove blank song from playlist.");
+  
    //removes the first match starting from the end
    if (tail == nullptr){ return; }    //check if list is empty
    NODE *curr = tail;
@@ -65,6 +72,8 @@ void Playlist::Remove(Song song){
 }
 
 void Playlist::InsertAfter(Song old_song, Song new_song){
+   if (new_song.title=="") throw runtime_error("Cannot insert blank song in playlist.");
+   
    NODE *curr = head;
    NODE *new_node = new NODE();
    new_node->song = new_song;
