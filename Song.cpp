@@ -1,104 +1,142 @@
+//
+//  DoublyList.cpp
+//  HW2
+//
+//  Created by Samantha-Jo Cunningham on 2/27/18.
+//  HUid: @02787273
+//  Copyright © 2018 Samantha-Jo Cunningham. All rights reserved.
+//
+
+#include <stdio.h>
 #include <iostream>
 #include <string>
-#include <vector>
+
+#include "Song.h" //include the header file
+
 
 using namespace std;
 
-#include "Song.h"
 
-Song::Song() //default constructor
-{
-
-name = ""; 
-art = "";
-alb = "";
-
+void DoublyList::prepend(NODE *newNode) { //prepend function that adds a new node to the head of the list
+    if (head == NULL) { //checks to see if the list is Null
+        head = newNode; //prepends the head and tail with the newnode
+        tail = newNode;
+    }
+    else {
+        newNode->next = head; //prepends newnode to the head of the list
+        head->previous = newNode;
+        head = newNode; //sets the head to newnode
+    }
 }
 
-//Song function to get song title
-string Song::getTitle() const {
-  return title;
+void DoublyList::append(NODE *newNode) { //append function that adds a new node to the tail of the list
+    if (head == NULL) { //checks to see if the list is Null
+        head = newNode; //appends the head and tail with the newnode
+        tail = head;
+        
+    }
+    else {
+        tail->next = newNode; //adds the newnode to the tail of the list
+        newNode->previous = tail;
+        tail = newNode; //sets the newnode as the tail
+        tail->next = head; //sets the tail next to head to create a circular list
+    }
 }
 
-void Song::SetTitle(string songName) {
-  name = student;
+void DoublyList::remove(NODE *currNode){ //this function removes a node from the list
+    
+    sucNode = currNode->next; //sets successor node to current node next
+    predNode = currNode->previous; //sets predecessor node to current node previous
+    
+    if (sucNode != NULL) { //checks to see if sucnode is null
+        sucNode->previous = predNode; // if its not null remove currnode
+        
+    }
+    
+    if (predNode != NULL) { //checks to see if prednode is null
+        predNode->next = sucNode; // if its not null remove currnode
+        return;
+        
+    }
+    
+    if (head == currNode) { // Removes head
+        head = sucNode;
+    }
+    
+    if (currNode == tail) { // Removes tail
+        tail = predNode;
+    }
 }
 
-double Song::getDuration() const {
-  return duration;
-} 
-
-void Song::SetDuration(double songDuration) {
-  duration = songDuration;
-  if (duration < 0) {   //Error checking, non-negative duration
-      throw runtime_error("Invalid duration");
-   }
+void DoublyList::insertAfter(NODE *curNode, NODE *newNode){ //This function inserts after a given node
+    
+    if (head == NULL) { //checks to see if the list is Null
+        head = newNode; ////inserts the newnode at the head and tail
+        tail = newNode;
+    }
+    else if (curNode == tail) { //inserts newnode at the tail
+        tail->next = newNode;
+        newNode->previous = tail;
+        tail = newNode;
+        newNode->next = head;
+        
+    }
+    else { //inserts newnode after curnode
+        sucNode = curNode->next;
+        newNode->next = sucNode;
+        newNode->previous = curNode;
+        curNode->next = newNode;
+        sucNode->previous = newNode;
+    }
+    
 }
 
-string Song::getArtist() const {
-  return artist;
+
+
+/*void DoublyList::print(){ //prints the list
+    NODE *curNode;
+    curNode = head; //set curNode to the head of the list
+    int i = 1;
+    cout << "Flight Records for HowardAir Flight CSCI0136:";
+    do { //prints the list until curNode = head again
+        cout << endl;
+        cout << i << ". " << curNode->flight.destination << " to " << curNode->next->flight.destination;
+        curNode = curNode->next;
+        i++;
+    }
+    while (curNode != head); //creates a circular list
+    
+    
+} */
+
+void song::SetTitle(string songTitle) {
+    title = songTitle;
+    return;
+    
 }
 
-string Song::SetArtist(string artistName) {
-  artist = artistName;
+void song::SetDuration(string songDuration) {
+    duration = songDuration;
+    return;
 }
 
-string Song::getGenre() const {
-  return genre;
-} 
-
-string Song::SetGenre(string songGenre) {
-  genre = songGenre;
-} 
-
-/*void Song::Addsong (int counter) {
-  
-}*/
-
-void Song::Display() const{
-  cout << "\nHere are the songs in your playlist" << endl;
-  cout << "Title: " << SongTitle() << endl;
-  cout << "Artist: " << SetArtist() << endl;
-  cout << "Duration: " << SetDuration() << endl;
-  cout << "Genre: " << SetGenre() << endl;
-  
-  Menu();
+void song::SetGenre(string songGenre) {
+    genre = songGenre;
+    return;
 }
 
-/*void Song::Exit (int counter) {
-  
-}*/
+string song::GetArtist() const {
+    return artist;
+}
 
-int Song::Menu() {
-  //Display Menu
-  cout << "Pick a choice from the list:" << endl;
-  cout << "1. Add a song" << endl;
-  cout << "2. Remove a song" << endl;
-  cout << "3. Display all the songs in the list" << endl;
-  cout << "4. Quit" << endl;
+string song::GetTitle() const {
+    return title;
+}
 
-  cin >> option; // Getting input 
+string song::GetDuration() const {
+    return duration;
+}
 
-  switch (option) {
-  case 1:
-  cout << "\nAdd a song" << endl;
-  void AddSong (int counter); 
-  counter++; 
-  break;
-  case 2:
-  cout << "\nRemove a song" << endl;
-  void Remove(); 
-  break;
-  case 3:
-  cout << "\nDisplay a song" << endl; 
-  void Display(); 
-  break;
-  case 4: 
-  cout<< "\nQuit" << endl; 
-  void Exit(); 
-  break;
-  default:
-  cout << "\nInput a value between 1-4" << endl;
-  return Menu();
-  }
+string song::GetGenre() const {
+    return genre;
 }
