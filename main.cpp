@@ -4,13 +4,14 @@
 #include<vector>
 #include<iomanip>
 using namespace std;
-class Sort {
+class Sort{
 public:
-	static void SelectionSort(int numbers[], int numbersSize) {
+	template<typename T>
+static void SelectionSort(T numbers[], int numbersSize) {
 		int i = 0;
 		int j = 0;
 		int indexSmallest = 0;
-		int temp = 0;
+		T temp;
 		for (i = 0; i < numbersSize - 1; ++i) {
 			indexSmallest = i;
 			for (j = i + 1; j < numbersSize; ++j) {
@@ -25,17 +26,18 @@ public:
 		cout << "i: " << i << ", j: " << j << endl;
 		cout << "temp: " << temp << ", indexSmallest: " << indexSmallest << endl;
 	}
-	static void InsertionSort(int numbers[], int numbersSize) {
+template<typename T>
+static void InsertionSort(T numbers[], int numbersSize) {
 		int i = 0;
 		int j = 0;
-		int temp = 0;  // Temporary variable for swap
+		T temp;  // Temporary variable for swap
 
 		for (i = 1; i < numbersSize; ++i) {
 			j = i;
 			// Insert numbers[i] into sorted part
 			// stopping once numbers[i] in correct position
-			while (j > 0 && numbers[j] < numbers[j - 1]) {
-
+			while(j > 0 && numbers[j] < numbers[j - 1]) {
+				cout << "In while" << endl;
 				// Swap numbers[j] and numbers[j - 1]
 				temp = numbers[j];
 				numbers[j] = numbers[j - 1];
@@ -44,15 +46,15 @@ public:
 			}
 		}
 		cout << "i: " << i << ", j: " << j << endl;
-		cout << "temp: " << temp << endl;
 		return;
 	}
-	static void Merge(int numbers[], int i, int j, int k) {
+template<typename T>
+static void Merge(T numbers[], int i, int j, int k) {
 		int mergedSize = k - i + 1;                // Size of merged partition
 		int mergePos = 0;                          // Position to insert merged number
 		int leftPos = 0;                           // Position of elements in left partition
 		int rightPos = 0;                          // Position of elements in right partition
-		int* mergedNumbers = new int[mergedSize];  // Dynamically allocates temporary array
+		T* mergedNumbers = new T[mergedSize];  // Dynamically allocates temporary array
 												   // for merged numbers
 
 		leftPos = i;                               // Initialize left partition position
@@ -91,7 +93,8 @@ public:
 			numbers[i + mergePos] = mergedNumbers[mergePos];
 		}
 	};
-	static void MergeSort(int numbers[], int i, int k) {
+template<typename T>
+static void MergeSort(T numbers[], int i, int k) {
 		int j = 0;
 
 		if (i < k) {
@@ -104,41 +107,59 @@ public:
 			// Merge left and right partition in sorted order
 			Merge(numbers, i, j, k);
 		}
-	}
+};
 };
 
 int main() {
-	Sort obj;
-	int numbers[] = { 10, 6, 3, 89, 2, -1, 5 };
-	const int NUMBERS_SIZE = 7;
+	
+	int numbers[] = { 7,98,6,-5,1};
+	string words[] = {"yapple", "Yapple", "BABBLE", "apple"};
+	int nsize = 5;
+	int wsize = 4;
+	
 	int i = 0;
-	for (i = 0; i < NUMBERS_SIZE; ++i) {
-		cout << numbers[i] << ' ';
+	for (i = 0; i < wsize; ++i) {
+		cout << words[i] << ' ';
 	}
 	cout << endl;
 	cout << "\n\nSelection Sort: " << endl;
-	obj.SelectionSort(numbers, NUMBERS_SIZE);
-	for (i = 0; i < NUMBERS_SIZE; ++i) {
+	Sort::SelectionSort(words, wsize);
+	for (i = 0; i < wsize; ++i) {
+		cout << words[i] << ' ';
+	}
+	cout << endl;
+	cout << "\n\nSelection Sort: " << endl;
+	Sort::SelectionSort(numbers, nsize);
+	for (i = 0; i < nsize; ++i) {
 		cout << numbers[i] << ' ';
 	}
 	cout << endl;
-
-	cout << "\n\nInsertion Sort: " << endl;
-	int number[] = { 10, 6, 3, 89, 2, -1, 5 };
-	obj.InsertionSort(number, NUMBERS_SIZE);
-	for (i = 0; i < NUMBERS_SIZE; ++i) {
-		cout << number[i] << ' ';
-	}
-	cout << endl;
-
-	cout << "\n\nMerge Sort: " << endl;
 	
-	int num[] = { 100, 6, -23, 89, 2, -1, 5 };
-	Sort::MergeSort(num,0,NUMBERS_SIZE-1);
-	for (i = 0; i < NUMBERS_SIZE; ++i) {
-		cout << num[i] << ' ';
+	cout << "\n\nInsertion Sort: " << endl;
+	Sort::InsertionSort(numbers, nsize);
+	for (i = 0; i < nsize; ++i) {
+		cout << numbers[i] << ' ';
 	}
 	cout << endl;
-
+	cout << "\n\nInsertion Sort: " << endl;
+	Sort::InsertionSort(words, wsize);
+	for (i = 0; i < wsize; ++i) {
+		cout << words[i] << ' ';
+	}
+	cout << endl;
+	
+	cout << "\n\nMerge Sort: " << endl;
+	Sort::MergeSort(numbers, 0, nsize - 1);
+	for (i = 0; i < nsize; ++i) {
+		cout << numbers[i] << ' ';
+	}
+	cout << endl;
+	cout << "\n\nMerge Sort: " << endl;
+	Sort::MergeSort(words, 0, wsize - 1);
+	for (i = 0; i < wsize; ++i) {
+		cout << words[i] << ' ';
+	}
+	cout << endl;
+	
 	return 0;
 }
