@@ -24,10 +24,15 @@ $ sounds
 
 Compile Tests:
 $ g++ test\_users.cpp users.cpp -o test.exe
+
 $ g++ test\_search.cpp search.cpp -o test.exe
+
 $ g++ test\_playlist.cpp playlist.cpp song.cpp -o test.exe
+
 $ g++ test\_sort.cpp sort.cpp -o test.exe
+
 $ g++ test\_song.cpp song.cpp -o test.exe
 
 Run Test:
+
 $ test
