@@ -3,9 +3,9 @@
 #include <vector>
 #include <cstdlib>  //rand, srand
 #include <ctime>
-#include "user.h"
-#include "playlist.h"
 #include "song.h"
+#include "playlist.h"
+#include "user.h"
 
 using namespace std;
 
@@ -26,7 +26,7 @@ using namespace std;
  * void User::storePlaylists();
  */
 
-void new_playlist_dialogue(User& user){
+void new_playlist_dialogue(User& user);
 void select_playlist_dialogue(User& user);
 void playlist_menu_dialogue(User& user, Playlist& playlist);
 void select_song_dialogue(Playlist& playlist);
@@ -45,6 +45,7 @@ int main(){
 	//	add new playlist
 	//	select playlist
 	//	quit
+	bool done = false;
 	while (!done){
 		cout << "Enter a selection 1-3\n \
 			\t 1. Create new playlist\n \
@@ -76,7 +77,7 @@ void new_playlist_dialogue(User& user){
 }
 
 void select_playlist_dialogue(User& user){
-	vector<Playlists> playlists = user.getPlaylists();
+	vector<Playlist> playlists = user.getPlaylists();
 	cout << "Enter a selection 1-" << playlists.size() << endl;
 	for (int i=0; i < playlists.size(); i++){
 		cout << i+1 << ". " << playlists[i].getName() << endl;
@@ -84,8 +85,8 @@ void select_playlist_dialogue(User& user){
 	int selection;
 	cin >> selection;
 	//TODO: throw error if not in range
-	playlist_menu_dialogue(user, playlists[i-1]);
-	user.setPlayslists(playlists);    //it'd be faster to just reference playlist from user
+	playlist_menu_dialogue(user, playlists[selection]);
+	user.setPlaylists(playlists);    //it'd be faster to just reference playlist from user
 }
 
 void playlist_menu_dialogue(User& user, Playlist& playlist){
@@ -104,7 +105,7 @@ void playlist_menu_dialogue(User& user, Playlist& playlist){
 	int selection;
 	cin >> selection;
 	switch(selection){
-		case 1: user.deletePlaylist();
+		case 1: user.deletePlaylist(playlist.getName());
 			break;
 		case 2: playlist.play();
 			break;
@@ -112,7 +113,7 @@ void playlist_menu_dialogue(User& user, Playlist& playlist){
 			break;
 		case 4: select_song_dialogue(playlist);
 			break;
-		case 5: done = true;  //it'll return anyway
+		case 5: //done = true;  //it'll return anyway
 			break;
 		default: cout << "Sorry I don't understand." << endl;  //or throw error
 			 break;
@@ -121,8 +122,8 @@ void playlist_menu_dialogue(User& user, Playlist& playlist){
 
 void select_song_dialogue(Playlist& playlist){
 	cout << "Enter a selection 1-" << playlist.songs.size() << endl;
-	for (int i=0; i < playlists.size(); i++){
-		cout << i+1 << ". " << playlist.songs[i] << endl;
+	for (int i=0; i < playlist.songs.size(); i++){
+		cout << i+1 << ". " << playlist.songs[i].GetTitle() << endl;
 	}
 	int selection;
 	cin >> selection;
@@ -146,7 +147,7 @@ void song_menu_dialogue(Playlist& playlist, Song& song){
 			break;
 		case 2: song.play();  //shows song info and fancy graphics for song duration
 			break;
-		case 3: done = true;   //it returns anyway
+		case 3: //done = true;   //it returns anyway
 			break;
 		default: cout << "Sorry I don't understand." << endl;  //or throw error
 			 break;

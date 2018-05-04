@@ -11,11 +11,24 @@
 #include <iostream>
 #include <string>
 
-#include "Song.h" //include the header file
-
+#include "song.h" //include the header file
 
 using namespace std;
 
+Song::Song(){}
+
+Song::Song(string title, string artist, double duration, string genre, int likes){
+    this->title = title;
+    this->artist = artist;
+    this->genre = genre;
+    this->duration = duration;
+    this->likes = likes;
+}
+
+void Song::play(){
+    cout << "Now playing " << title << " by " << artist << "... " << endl;
+    cout << "Genre " << genre << "Duration: " << duration << "Likes: " << likes << endl; 
+}
 
 void DoublyList::prepend(NODE *newNode) { //prepend function that adds a new node to the head of the list
     if (head == NULL) { //checks to see if the list is Null
@@ -109,34 +122,35 @@ void DoublyList::insertAfter(NODE *curNode, NODE *newNode){ //This function inse
     
 } */
 
-void song::SetTitle(string songTitle) {
+void Song::SetTitle(string songTitle) {
     title = songTitle;
     return;
     
 }
 
-void song::SetDuration(string songDuration) {
+void Song::SetDuration(double songDuration) {
     duration = songDuration;
     return;
 }
 
-void song::SetGenre(string songGenre) {
+void Song::SetGenre(string songGenre) {
     genre = songGenre;
     return;
 }
 
-string song::GetArtist() const {
+string Song::GetArtist() const {
     return artist;
 }
 
-string song::GetTitle() const {
+string Song::GetTitle() const {
     return title;
 }
 
-string song::GetDuration() const {
+double Song::GetDuration() const {
     return duration;
 }
 
-string song::GetGenre() const {
+string Song::GetGenre() const {
     return genre;
 }
+

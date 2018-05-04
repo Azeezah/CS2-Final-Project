@@ -2,6 +2,7 @@
 #include <string>
 #include <stdexcept>
 #include "playlist.h"
+#include "song.h"
 
 using namespace std;
 
@@ -16,13 +17,13 @@ Playlist::Playlist(string titles[], int num_titles){
    Song curr;
    
    for (int i=0; i<num_titles; i++){
-      curr.title = titles[i];
+      curr.SetTitle(titles[i]);
       this->Append(curr);
    }
 };
 
 void Playlist::Append(Song data){
-   if (data.title=="") throw runtime_error("Cannot append blank song to playlist.");
+   if (data.GetTitle()=="") throw runtime_error("Cannot append blank song to playlist.");
    
    NODE* node = new NODE();
    node->next = nullptr;
@@ -42,7 +43,7 @@ void Playlist::Append(Song data){
 }
 
 void Playlist::Prepend(Song song){
-   if (song.title=="") throw runtime_error("Cannot prepend blank song to playlist.");
+   if (song.GetTitle()=="") throw runtime_error("Cannot prepend blank song to playlist.");
 
    NODE* node = new NODE();
    node->song = song;
@@ -54,12 +55,12 @@ void Playlist::Prepend(Song song){
 }
 
 void Playlist::Remove(Song song){
-   if (song.title=="") throw runtime_error("Cannot remove blank song from playlist.");
+   if (song.GetTitle()=="") throw runtime_error("Cannot remove blank song from playlist.");
   
    //removes the first match starting from the end
    if (tail == nullptr){ return; }    //check if list is empty
    NODE *curr = tail;
-   while (curr->song.title != song.title){
+   while (curr->song.GetTitle() != song.GetTitle()){
       curr = curr->previous;    //go backward
       if (curr == tail){ return; }    //node to remove is not present in circular list
    }
@@ -72,7 +73,7 @@ void Playlist::Remove(Song song){
 }
 
 void Playlist::InsertAfter(Song old_song, Song new_song){
-   if (new_song.title=="") throw runtime_error("Cannot insert blank song in playlist.");
+   if (new_song.GetTitle()=="") throw runtime_error("Cannot insert blank song in playlist.");
    
    NODE *curr = head;
    NODE *new_node = new NODE();
@@ -80,7 +81,7 @@ void Playlist::InsertAfter(Song old_song, Song new_song){
    
    if (head == nullptr){ return; }    //check if list is empty
    
-   while (curr->song.title != old_song.title){
+   while (curr->song.GetTitle() != old_song.GetTitle()){
       curr = curr->next;
       if (curr == head){ return; }    //check if flight is not in circular list
    }
@@ -98,7 +99,29 @@ void Playlist::Print(){
    if(head==nullptr){ return; }    //check if empty
    NODE *curr = head;
    do {
-      cout << curr->song.title << endl;
+      cout << curr->song.GetTitle() << endl;
       curr = curr->next;
    } while (curr != head);
+}
+
+
+Playlist::Playlist(string name){
+   this->name = name;
+}
+
+string Playlist::getName(){
+   return this->name;
+}
+
+void Playlist::play(){
+   //for song in playlist:
+   //	print song info, and show nice graphics
+}
+
+void Playlist::removeSong(Song song){
+   //remove song from playlist
+}
+
+void Playlist::addSong(Song song){
+   this->songs.push_back(song);
 }

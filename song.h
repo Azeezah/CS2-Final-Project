@@ -5,27 +5,32 @@
 #include <string>
 using namespace std;
 
-class song { //create the song class
+class Song { //create the song class
     //create public variables
 public:
+    Song();
+    Song(string title, string artist, double duration, string genre, int likes);
+    void play();
+
     //mutators
     void SetArtist(string songArtist);
     void SetTitle(string songTitle);
-    void SetDuration(string songDuration);
+    void SetDuration(double songDuration);
     void SetGenre(string songGenre);
     
     //accessors
     string GetArtist() const;
     string GetTitle() const;
-    string GetDuration() const;
+    double GetDuration() const;
     string GetGenre() const;
     
     //creats private variables
 private:
     string artist;
     string title;
-    string duration;
+    double duration;
     string genre;
+    int likes;
     
 };
 
