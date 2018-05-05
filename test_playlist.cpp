@@ -14,6 +14,8 @@ int main(){
   catch (runtime_error& excpt) {
     cout << excpt.what() << endl;
   }
-  
+
+  playlist.loadPlaylist("Guest", "exercise music");
+
   return 0;
 }

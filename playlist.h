@@ -2,6 +2,7 @@
 #define PLAYLIST_H
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "song.h"
 
 using namespace std;
@@ -22,7 +23,8 @@ class Playlist {
   void removeSong(Song song);
   void addSong(Song song);
   vector<Song> songs;  //should really be private
-
+  static unordered_map <string, vector<string>> loadPlaylists();
+  void loadPlaylist(string user, string playlist_name);
   private:
   string name;
 
