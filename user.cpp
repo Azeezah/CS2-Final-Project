@@ -55,4 +55,21 @@ void User::loadPlaylists(){
 	//			read in song parts
 	//			add to playlist vector
 	//	append playlist to playlists vector
+	unordered_map <string, vector<string>> users_to_playlists;
+	vector<string> playlist_names;
+	Playlist playlist;
+
+	users_to_playlists = Playlist::loadPlaylists();
+	if (users_to_playlists.find(this->username) != users_to_playlists.end())
+		playlist_names = users_to_playlists[this->username];
+	else
+		playlist_names = users_to_playlists["Guest"];
+	
+	this->playlists.clear();
+	for(int i=0; i<playlist_names.size(); i++){
+		playlist = Playlist(playlist_names[i]);
+		playlist.loadPlaylist(this->username, playlist_names[i]);
+		this->playlists.push_back(playlist);
+	}
+
 }

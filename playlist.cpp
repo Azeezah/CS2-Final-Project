@@ -132,6 +132,9 @@ unordered_map <string, vector<string>> Playlist::loadPlaylists(){
 	//returns a map username -> list of playlist names
 	unordered_map <string, vector<string>> lists;
 
+	//this reads the playlist names from a file
+	//hopefully this is a little more portable 
+	//than listing them from the user folders directly
 	ifstream f;
 	f.open("user_playlists.txt");
 	if(!f.is_open()){ cout << "couldn't open file" << endl; return lists; }
@@ -160,7 +163,7 @@ void Playlist::loadPlaylist(string user, string playlist_name){
 	ifstream f;	
 	f.open("users/"+user+"/playlists/"+playlist_name);
 	//TODO: if !f.is_open() try using backslashes
-	if(!f.is_open()){ cout << "couldn't open playlist file" << endl; return; }
+	if(!f.is_open()){ cout << "couldn't open playlist file: " << ("users/"+user+"/playlists/"+playlist_name) << endl; return; }
 	while(!f.eof()){
 		getline(f, title, '\t');
 		getline(f, artist, '\t');

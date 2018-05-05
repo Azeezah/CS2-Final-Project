@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <unordered_map>
 #include "playlist.h"
 
 using namespace std;
@@ -15,7 +16,8 @@ int main(){
     cout << excpt.what() << endl;
   }
 
-  playlist.loadPlaylist("Guest", "exercise music");
+  playlist.loadPlaylist("Mike", "I got an A");
+  unordered_map map = Playlist::loadPlaylists();
 
   return 0;
 }
