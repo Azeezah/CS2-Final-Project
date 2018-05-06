@@ -35,11 +35,36 @@ void new_song_dialogue(Playlist& playlist);
 
 int main(){
 	//get name
-	string username;
-	cout << "Username: ";
-	cin >> username;
-	User user = User(username);  //create object instead of pointer
-	user.loadPlaylists();
+	string username; char choice,guest_or_not; bool usr = false;
+	do{
+	cout << "Are you a new or existing user? <type n or e>"<<endl;
+	cin >> choice;
+	if(choice == 'n'){//if new, they may continue as a guest or with a username to save playlist
+		cout << "Only a user with a username can save a playlist" << endl;
+		cout << "Would you like to enter a username or continue as a guest? <enter g for Guest & u for username>";
+		cin >> guest_or_not;
+		if(guest_or_not == 'g'){
+			User user = User("Guest");
+			user.loadPlaylists();
+			cout << "The default playlist is loaded" << endl;
+			usr = true;
+		}else if(guest_or_not == 'u'){
+			cout << "Username: ";
+			cin >> username;
+			User user = User(username);
+			usr = true;
+		}	
+	}else if(choice == 'e'){//if existing, load their playlists. still checking for their existence tho
+			cout << "Username: ";
+			cin >> username;
+			User user = User(username); 
+			//To-Do: implement throw-catch in func below to detect users that lied about existence 
+			user.loadPlaylists();
+			//To-Do: change usr = true ONLY if NO ERROR is thrown
+			usr = true;	
+	}
+	}while(usr == false);
+	
 	srand(time(0));
 	//main menu
 	//	add new playlist
@@ -47,6 +72,7 @@ int main(){
 	//	quit
 	bool done = false;
 	while (!done){
+		//To-Do: Add new option of viewing default playlist below
 		cout << "Enter a selection 1-3\n \
 			\t 1. Create new playlist\n \
 			\t 2. Select playlist\n \
@@ -65,7 +91,7 @@ int main(){
 		}
 	}
 	cout << "Good day" << endl;
-	user.storePlaylists();
+	user.storePlaylists(); 
 	return 0;
 }
 
