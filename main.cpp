@@ -35,7 +35,8 @@ void new_song_dialogue(Playlist& playlist);
 
 int main(){
 	//get name
-	string username; char choice,guest_or_not; bool usr = false;
+	User user;
+	string username; char choice, guest_or_not; bool usr = false;
 	do{
 	cout << "Are you a new or existing user? <type n or e>"<<endl;
 	cin >> choice;
@@ -44,7 +45,7 @@ int main(){
 		cout << "Would you like to enter a username or continue as a guest? <enter g for Guest & u for username>";
 		cin >> guest_or_not;
 		if(guest_or_not == 'g'){
-			User user = User("Guest");
+			user = User("Guest");
 			user.loadPlaylists();
 			cout << "The default playlist is loaded" << endl;
 			usr = true;
