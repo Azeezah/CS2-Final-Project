@@ -11,7 +11,8 @@
 #include <iostream>
 #include <string>
 
-#include "song.h" //include the header file
+#include "song.h" //include the song header file
+#include "user.h" //include the user header file
 
 using namespace std;
 
@@ -25,9 +26,11 @@ Song::Song(string title, string artist, double duration, string genre, int likes
     this->likes = likes;
 }
 
-void Song::play(){
-    cout << "Now playing " << title << " by " << artist << "... " << endl;
-    cout << "Genre " << genre << "Duration: " << duration << "Likes: " << likes << endl; 
+void Song::play() {
+    cout << "User: " << username << endl;
+    cout << "Now playing your playlist  " << playlist << endl;
+    cout << title << " by " << artist << "with a genre of " << genre;
+    cout << " and duration of " << duration << endl;
 }
 
 void DoublyList::prepend(NODE *newNode) { //prepend function that adds a new node to the head of the list
@@ -103,24 +106,6 @@ void DoublyList::insertAfter(NODE *curNode, NODE *newNode){ //This function inse
     }
     
 }
-
-
-
-/*void DoublyList::print(){ //prints the list
-    NODE *curNode;
-    curNode = head; //set curNode to the head of the list
-    int i = 1;
-    cout << "Flight Records for HowardAir Flight CSCI0136:";
-    do { //prints the list until curNode = head again
-        cout << endl;
-        cout << i << ". " << curNode->flight.destination << " to " << curNode->next->flight.destination;
-        curNode = curNode->next;
-        i++;
-    }
-    while (curNode != head); //creates a circular list
-    
-    
-} */
 
 void Song::SetTitle(string songTitle) {
     title = songTitle;
