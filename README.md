@@ -4,18 +4,24 @@ Presenting Sounds: A new way to enjoy the music you love.
 
 For the use case of playing M playlists:
 This application has a runtime complexity of O(MNlogN), where N is the average number of songs in the playlist.  For each playlist, first, the application sorts it, which takes O(NlogN) time.  Then it plays is, which takes O(N) time.
-Contributions:
-    Travis Brown:
+
+-->Contributions:
+    
+    1. Travis Brown:
         -Improved main.cpp UX
         -made vectors template parameters
         -basis for Sort template functions
-    Azeezah Muhammad:
+    
+    2. Azeezah Muhammad:
         -Foundation of main.cpp, user.cpp & playlist.cpp
         -Integration
-    Peace Aku:
+    
+    3. Peace Aku:
         -Song.cpp
-    Samantha-Jo Cunningham:
+
+    4. Samantha-Jo Cunningham:
         -Alterations to Sort.cpp
+
 Files:
 - main.cpp
 - users.h
