@@ -18,14 +18,16 @@ public:
     void SetTitle(string songTitle);
     void SetDuration(double songDuration);
     void SetGenre(string songGenre);
-    
+    void SetLikes(int songLikes);
+
     //accessors
     string GetArtist() const;
     string GetTitle() const;
     double GetDuration() const;
     string GetGenre() const;
-    
-    //creats private variables
+    int GetLikes() const;
+
+    //creates private variables
 private:
     string artist;
     string title;
