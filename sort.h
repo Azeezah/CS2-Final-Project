@@ -15,14 +15,16 @@
 #include <sstream>
 #include <vector>
 #include <string.h>
+
 using namespace std;
 
 class Sort { //sort class
-public:
-    template<typename TheType>
-    static void MergeSort(TheType playlist, int i, int k);
-    template<typename TheType>
-    static void Merge(TheType playlist, int i, int j, int k);
+public:   
+    template<typename T, typename A>
+    static void MergeSort(vector<T, A> const& list, int i, int k);
+    template<typename T, typename A>
+    static void Merge(vector<T, A> const& list, int i, int j, int k);
+
 };
 
 
