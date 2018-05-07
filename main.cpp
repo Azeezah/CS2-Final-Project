@@ -40,7 +40,7 @@ int main(){
 	//user.loadPlaylist() works as intended, and will load the Guest playlists if user is new
 	string username;
 	cout << "Username: ";
-	cin >> username;
+	getline(cin, username);
 	User user = User(username);
 	user.loadPlaylists();
 	//main menu
@@ -56,6 +56,7 @@ int main(){
 			\t 3. Quit" << endl;
 		int selection;
 		cin >> selection;
+		cin.ignore();    //make cin work with getline in the same file
 		switch(selection){
 			case 1: new_playlist_dialogue(user);
 				done = true;
@@ -77,7 +78,7 @@ int main(){
 void new_playlist_dialogue(User& user){
 	cout << "Name of playlist: ";
 	string name_of_playlist;
-	cin >> name_of_playlist;
+	getline(cin, name_of_playlist);
 	user.addPlaylist(name_of_playlist);
 }
 
@@ -94,6 +95,7 @@ void select_playlist_dialogue(User& user){
 	}
 	int selection;
 	cin >> selection;
+	cin.ignore();    //make cin work with getline in the same file
 	if (selection >= playlists.size() || selection < 1) {
 		cout << "That selection is out of range." << endl;
 		return;
@@ -118,6 +120,7 @@ void playlist_menu_dialogue(User& user, Playlist& playlist){
 		\t 5. Go back" << endl;
 	int selection;
 	cin >> selection;
+	cin.ignore();    //make cin work with getline in the same file
 	switch(selection){
 		case 1: user.deletePlaylist(playlist.getName());
 			break;
@@ -145,6 +148,7 @@ void select_song_dialogue(User& user, Playlist& playlist){
 	}
 	int selection;
 	cin >> selection;
+	cin.ignore();    //make cin work with getline in the same file
 	if (selection >= playlist.songs.size() || selection < 1) {
 		cout << "That selection is out of range." << endl;
 		return;
@@ -163,6 +167,7 @@ void song_menu_dialogue(User& user, Playlist& playlist, Song& song){
 		\t 3. Go back" << endl;
 	int selection;
 	cin >> selection;
+	cin.ignore();    //make cin work with getline in the same file
 	switch(selection){
 		case 1: playlist.removeSong(song);
 			break;
@@ -182,19 +187,19 @@ void new_song_dialogue(Playlist& playlist){
 	//	duration
 	//	genre
 
-	//TODO: get spaces in input without breaking cin
 	string title, artist, genre;
 	double duration;
 	int likes;
 	cout << "New Song: " << endl;
 	cout << "\tTitle: ";
-	cin >> title;
+	getline(cin, title);    //use getline to get spaces
 	cout << "\tArtist: ";
-	cin >> artist;
+	getline(cin, artist);
 	cout << "\tDuration: ";
 	cin >> duration;
+	cin.ignore();    //make cin work with getline in the same file
 	cout << "\tGenre: ";
-	cin >> genre;
+	getline(cin, genre);
 	likes = rand() % 100;
 	playlist.addSong(Song(title, artist, duration, genre, likes));
 }	
