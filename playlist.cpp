@@ -32,9 +32,12 @@ void Playlist::play(){
    //for song in playlist:
    //	print song info, and show nice graphics
 }
-
-void Playlist::removeSong(Song song){
-   //remove song from playlist
+//remove song from playlist
+void Playlist::removeSong() {
+	string choice;
+  	cout << "What song will you like to remove?" << endl;
+  	cin >> choice;
+  	songs.remove(choice);
 }
 
 void Playlist::addSong(Song song){
