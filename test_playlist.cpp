@@ -12,8 +12,8 @@ int main(){
   song = Song("Thriller", "Micheal Jackson", 4.9, "Pop", 2);
   playlist.addSong(song);
   playlist.print();
-  playlist.remove(song);
-  playlist.print();
+  /*playlist.remove(song);
+  playlist.print();*/
   playlist.loadPlaylist("Mike", "I got an A");
   playlist.storePlaylist("Mikayla");
   return 0;
