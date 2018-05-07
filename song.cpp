@@ -72,3 +72,21 @@ string Song::GetGenre() const {
 int Song::GetLikes() const {
     return likes;
 }
+
+//we don't need the scoping operator here since these are friend functions
+//friend functions can access private variables without actually being part of the class
+bool operator> (const Song& song1, const Song& song2){
+    return song1.likes > song2.likes;
+}
+bool operator<= (const Song& song1, const Song& song2){
+    return song1.likes <= song2.likes;
+}
+bool operator< (const Song& song1, const Song& song2){
+    return song1.likes < song2.likes;
+}
+bool operator>= (const Song& song1, const Song& song2){
+    return song1.likes >= song2.likes;
+}
+
+
+

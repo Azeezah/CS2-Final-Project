@@ -27,14 +27,20 @@ public:
     string GetGenre() const;
     int GetLikes() const;
 
+    //friend functions can access private variables without actually being part of the class
+    //we'll overload the comparison operators so we can easily compare songs by likes
+    friend bool operator> (const Song& song1, const Song& song2);
+    friend bool operator<= (const Song& song1, const Song& song2);
+    friend bool operator< (const Song& song1, const Song& song2);
+    friend bool operator>= (const Song& song1, const Song& song2);
+
     //creates private variables
 private:
     string artist;
     string title;
     double duration;
     string genre;
-    int likes;
-    
+    int likes;  
 };
 
 #endif /* SONG_H */
