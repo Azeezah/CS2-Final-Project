@@ -1,7 +1,9 @@
+#include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
-#include "User.h"
-#include "Playlist.h"
+#include "user.h"
+#include "playlist.h"
 
 using namespace std;
 
@@ -38,38 +40,53 @@ void User::setPlaylists(vector<Playlist> playlists){
 }
 
 void User::storePlaylists(){
-	//create folder for user if it doesn't already exist
 	//for each playlist
 	//	create file
 	//	for each song
 	//		write: title, artist, genre, duration, likes
 	//		separated by tabs (since strings may have spaces)
+	ofstream f;
+	f.open("playlists/"+this->username+"_playlist_names");
+	for(int i=0; i<this->playlists.size(); i++){
+		f << this->playlists[i].getName() << endl;
+	}    //this loop is separate so we can close the file quickly
+	f.close();
+	for(int i=0; i<this->playlists.size(); i++){
+		this->playlists[i].storePlaylist(this->username);
+	}
 }
 
 void User::loadPlaylists(){
 	//if user folder does not exist, load Guest user playlists
-	//for each file in user folder
+	//for each of user's playlists
 	//	create playlist vector
 	//		for each line in file
 	//			getline delim = \t
 	//			read in song parts
 	//			add to playlist vector
 	//	append playlist to playlists vector
-	unordered_map <string, vector<string>> users_to_playlists;
-	vector<string> playlist_names;
-	Playlist playlist;
-
-	users_to_playlists = Playlist::loadPlaylists();
-	if (users_to_playlists.find(this->username) != users_to_playlists.end())
-		playlist_names = users_to_playlists[this->username];
-	else
-		playlist_names = users_to_playlists["Guest"];
 	
+	Playlist playlist;
+	string playlist_name;
+	string user = this->username;
+	vector<string> playlist_names;
+	ifstream f;
+
+	f.open("playlists/"+user+"_playlist_names");
+	if (!f.is_open()){ 
+		user = "Guest";
+	        f.open("playlists/"+user+"_playlist_names");
+	}
+	while(!f.eof()){
+		getline(f, playlist_name);
+		if (!f.good()) break;
+		playlist_names.push_back(playlist_name);
+	}
+
 	this->playlists.clear();
 	for(int i=0; i<playlist_names.size(); i++){
 		playlist = Playlist(playlist_names[i]);
-		playlist.loadPlaylist(this->username, playlist_names[i]);
+		playlist.loadPlaylist(user, playlist_names[i]);
 		this->playlists.push_back(playlist);
 	}
-
 }

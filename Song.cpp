@@ -48,6 +48,11 @@ void Song::SetGenre(string songGenre) {
     return;
 }
 
+void Song::SetLikes(int songLikes) {
+    likes = songLikes;
+    return;
+}
+
 string Song::GetArtist() const {
     return artist;
 }
@@ -64,3 +69,6 @@ string Song::GetGenre() const {
     return genre;
 }
 
+int Song::GetLikes() const {
+    return likes;
+}

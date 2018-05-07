@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <unordered_map>
+#include "song.h"
 #include "playlist.h"
 
 using namespace std;
@@ -13,7 +13,6 @@ int main(){
   playlist.addSong(song);
   playlist.print();
   playlist.loadPlaylist("Mike", "I got an A");
-  unordered_map<string, vector<string>> map = Playlist::loadPlaylists();
-
+  playlist.storePlaylist("Mikayla");
   return 0;
 }

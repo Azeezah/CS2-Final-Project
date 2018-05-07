@@ -5,7 +5,10 @@
 using namespace std;
 
 int main(){
-	User user = User("Mike");
+	User user = User("Earl");
+	cout << "Loading playlist" << endl;
 	user.loadPlaylists();
+	cout << "Storing playlist" << endl;
+	user.storePlaylists();
 	return 0;
 }

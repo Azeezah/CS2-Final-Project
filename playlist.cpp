@@ -41,32 +41,6 @@ void Playlist::addSong(Song song){
    this->songs.push_back(song);
 }
 
-unordered_map <string, vector<string>> Playlist::loadPlaylists(){
-	//returns a map username -> list of playlist names
-	unordered_map <string, vector<string>> lists;
-
-	//this reads the playlist names from a file
-	//hopefully this is a little more portable 
-	//than listing them from the user folders directly
-	ifstream f;
-	f.open("user_playlists.txt");
-	if(!f.is_open()){ cout << "couldn't open file" << endl; return lists; }
-	
-	vector<string> playlist_names;
-	string token;
-	while(getline(f, token, '\t')){
-		if (token.back() == '\n') {
-			//cout << "name: " << token.substr(1) << endl;
-			lists[token.substr(0, token.size()-1)] = playlist_names;
-			playlist_names.clear();
-		} else {
-			playlist_names.push_back(token);
-			//cout << " | " << token << endl;
-		}
-	}
-	return lists;
-}
-
 void Playlist::loadPlaylist(string user, string playlist_name){
 	this->songs.clear();
 	
@@ -74,9 +48,9 @@ void Playlist::loadPlaylist(string user, string playlist_name){
 	double duration;
 	int likes;
 	ifstream f;	
-	f.open("users/"+user+"/playlists/"+playlist_name);
-	//TODO: if !f.is_open() try using backslashes
-	if(!f.is_open()){ cout << "couldn't open playlist file: " << ("users/"+user+"/playlists/"+playlist_name) << endl; return; }
+	f.open("playlists/"+user+"_"+playlist_name);
+	
+	if(!f.is_open()){ cout << "couldn't open playlist file: " << ("playlists/"+user+"_"+playlist_name) << endl; return; }
 	while(!f.eof()){
 		getline(f, title, '\t');
 		getline(f, artist, '\t');
@@ -92,5 +66,18 @@ void Playlist::loadPlaylist(string user, string playlist_name){
 			<< " Genre: " << genre \
 			<< " Likes: " << likes << endl;
 		this->songs.push_back(Song(title, artist, duration, genre, likes));
+	}
+}
+
+
+void Playlist::storePlaylist(string user){
+	ofstream f;
+	f.open("playlists/"+user+"_"+this->name);
+	for (int i=0; i<this->songs.size(); i++){
+		f << this->songs[i].GetTitle() << '\t' \
+		<< this->songs[i].GetArtist() << '\t' \
+		<< this->songs[i].GetDuration() << '\t' \
+		<< this->songs[i].GetGenre() << '\t' \
+		<< this->songs[i].GetLikes() << endl;
 	}
 }
