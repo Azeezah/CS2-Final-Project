@@ -29,44 +29,20 @@ using namespace std;
 void new_playlist_dialogue(User& user);
 void select_playlist_dialogue(User& user);
 void playlist_menu_dialogue(User& user, Playlist& playlist);
-void select_song_dialogue(Playlist& playlist);
-void song_menu_dialogue(Playlist& playlist, Song& song);
+void select_song_dialogue(User& user, Playlist& playlist);
+void song_menu_dialogue(User& user, Playlist& playlist, Song& song);
 void new_song_dialogue(Playlist& playlist);
 
 int main(){
-	//get name
-	User user;
-	string username; char choice, guest_or_not; bool usr = false;
-	do{
-	cout << "Are you a new or existing user? <type n or e>"<<endl;
-	cin >> choice;
-	if(choice == 'n'){//if new, they may continue as a guest or with a username to save playlist
-		cout << "Only a user with a username can save a playlist" << endl;
-		cout << "Would you like to enter a username or continue as a guest? <enter g for Guest & u for username>";
-		cin >> guest_or_not;
-		if(guest_or_not == 'g'){
-			user = User("Guest");
-			user.loadPlaylists();
-			cout << "The default playlist is loaded" << endl;
-			usr = true;
-		}else if(guest_or_not == 'u'){
-			cout << "Username: ";
-			cin >> username;
-			User user = User(username);
-			usr = true;
-		}	
-	}else if(choice == 'e'){//if existing, load their playlists. still checking for their existence tho
-			cout << "Username: ";
-			cin >> username;
-			User user = User(username); 
-			//To-Do: implement throw-catch in func below to detect users that lied about existence 
-			user.loadPlaylists();
-			//To-Do: change usr = true ONLY if NO ERROR is thrown
-			usr = true;	
-	}
-	}while(usr == false);
-	
-	srand(time(0));
+	srand(time(0));  //seed random to use later
+
+	//removed workaround now that playlist loading is fixed
+	//user.loadPlaylist() works as intended, and will load the Guest playlists if user is new
+	string username;
+	cout << "Username: ";
+	cin >> username;
+	User user = User(username);
+	user.loadPlaylists();
 	//main menu
 	//	add new playlist
 	//	select playlist
@@ -82,8 +58,10 @@ int main(){
 		cin >> selection;
 		switch(selection){
 			case 1: new_playlist_dialogue(user);
+				done = true;
 				break;
 			case 2: select_playlist_dialogue(user);
+				done = true;
 				break;
 			case 3: done = true;
 				break;
@@ -105,14 +83,22 @@ void new_playlist_dialogue(User& user){
 
 void select_playlist_dialogue(User& user){
 	vector<Playlist> playlists = user.getPlaylists();
+	if (playlists.empty()) {
+		cout << "You have no playlists" << endl;
+		return;
+	}
+	
 	cout << "Enter a selection 1-" << playlists.size() << endl;
 	for (int i=0; i < playlists.size(); i++){
 		cout << i+1 << ". " << playlists[i].getName() << endl;
 	}
 	int selection;
 	cin >> selection;
-	//TODO: throw error if not in range
-	playlist_menu_dialogue(user, playlists[selection]);
+	if (selection >= playlists.size() || selection < 1) {
+		cout << "That selection is out of range." << endl;
+		return;
+	}
+	playlist_menu_dialogue(user, playlists[selection-1]);
 	user.setPlaylists(playlists);    //it'd be faster to just reference playlist from user
 }
 
@@ -123,6 +109,7 @@ void playlist_menu_dialogue(User& user, Playlist& playlist){
 	//	add new song
 	//	select song
 	//	back
+	cout << "You've selected " << playlist.getName() << endl;
 	cout << "Enter a selection 1-5\n \
 		\t 1. Delete playlist\n \
 		\t 2. Play playlist\n \
@@ -138,7 +125,7 @@ void playlist_menu_dialogue(User& user, Playlist& playlist){
 			break;
 		case 3: new_song_dialogue(playlist);
 			break;
-		case 4: select_song_dialogue(playlist);
+		case 4: select_song_dialogue(user, playlist);
 			break;
 		case 5: //done = true;  //it'll return anyway
 			break;
@@ -147,18 +134,25 @@ void playlist_menu_dialogue(User& user, Playlist& playlist){
 	}
 }
 
-void select_song_dialogue(Playlist& playlist){
+void select_song_dialogue(User& user, Playlist& playlist){
+	if (playlist.songs.empty()) {
+		cout << "This playlist is empty." << endl;
+		return;
+	}
 	cout << "Enter a selection 1-" << playlist.songs.size() << endl;
 	for (int i=0; i < playlist.songs.size(); i++){
 		cout << i+1 << ". " << playlist.songs[i].GetTitle() << endl;
 	}
 	int selection;
 	cin >> selection;
-	//TODO: throw error if not in range
-	song_menu_dialogue(playlist, playlist.songs[selection-1]);
+	if (selection >= playlist.songs.size() || selection < 1) {
+		cout << "That selection is out of range." << endl;
+		return;
+	}
+	song_menu_dialogue(user, playlist, playlist.songs[selection-1]);
 }
 
-void song_menu_dialogue(Playlist& playlist, Song& song){
+void song_menu_dialogue(User& user, Playlist& playlist, Song& song){
 	//song menu
 	//	remove song from playlist
 	//	play song
@@ -172,14 +166,13 @@ void song_menu_dialogue(Playlist& playlist, Song& song){
 	switch(selection){
 		case 1: playlist.removeSong(song);
 			break;
-		case 2: song.play();  //shows song info and fancy graphics for song duration
+		case 2: song.play(user.getUsername());  //shows song info and fancy graphics for song duration
 			break;
 		case 3: //done = true;   //it returns anyway
 			break;
 		default: cout << "Sorry I don't understand." << endl;  //or throw error
 			 break;
 	}
-
 }
 
 void new_song_dialogue(Playlist& playlist){

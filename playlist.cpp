@@ -60,7 +60,7 @@ void Playlist::loadPlaylist(string user, string playlist_name){
 		f >> likes;
 		f.ignore();   //remove following \t from the buffer
 		if (!f.good()) break;
-		cout << "Title: " << title \
+		//cout << "Title: " << title \
 			<< " Artist: " << artist \
 			<< " Duration: " << duration \
 			<< " Genre: " << genre \

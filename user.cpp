@@ -77,16 +77,19 @@ void User::loadPlaylists(){
 		user = "Guest";
 	        f.open("playlists/"+user+"_playlist_names");
 	}
+	cout << "Loading playlists/"+user+"_playlist_names" << endl;
+
 	while(!f.eof()){
 		getline(f, playlist_name);
 		if (!f.good()) break;
 		playlist_names.push_back(playlist_name);
 	}
-
+	//cout << "playlist_names.size(): " << playlist_names.size() << endl;
 	this->playlists.clear();
 	for(int i=0; i<playlist_names.size(); i++){
 		playlist = Playlist(playlist_names[i]);
 		playlist.loadPlaylist(user, playlist_names[i]);
 		this->playlists.push_back(playlist);
 	}
+	//cout << "this->playlists.size(): " << this->playlists.size() << endl;
 }
